@@ -1,0 +1,88 @@
+<div class="attendance-tracker">
+  <!-- Header -->
+  <div class="time-display">
+    <h2 class="time">تتبع الحضور</h2>
+    <p class="date">{{ today | date : "fullDate" : "" : "En" }}</p>
+  </div>
+
+  <!-- Notification Area -->
+  <div *ngIf="message" class="notification success">
+    <span class="material-icons">check_circle</span>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="error" class="notification error">
+    <span class="material-icons">error</span>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Actions Section -->
+  <div class="actions">
+    <button
+      class="check-in-btn"
+      (click)="checkIn()"
+      [disabled]="!userId || isLoading || hasActiveCheckIn(getCurrentShift())"
+    >
+      <span class="material-icons">login</span>
+      تسجيل الحضور
+    </button>
+    <button
+      class="check-out-btn"
+      (click)="checkOut()"
+      [disabled]="
+        !userId ||
+        isLoading ||
+        hasActiveCheckIn(getCurrentShift()) ||
+        canCheckOut()
+      "
+    >
+      <span class="material-icons">logout</span>
+      تسجيل الانصراف
+    </button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading">
+    <p>جاري المعالجة</p>
+  </div>
+
+  <!-- Attendance Records -->
+  <div *ngIf="attendanceRecords.length > 0" class="attendance-info">
+    <h2 class="status-label">سجلات الحضور</h2>
+    <div *ngFor="let record of attendanceRecords" class="status-checked-in">
+      <p>
+        <span class="status-label">الوقت:</span>
+        <span class="status-time">{{
+          record.timeOfAttend 
+        }}</span>
+      </p>
+      <p>
+        <span class="status-label">الموقع:</span>
+        <span class="status-location valid-location">
+          <span class="material-icons">place</span>
+          {{ record.latitude }}, {{ record.longitude }}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Leave Records -->
+  <div *ngIf="leaveRecords.length > 0" class="attendance-info">
+    <h2 class="status-label">سجلات الانصراف</h2>
+    <div *ngFor="let record of leaveRecords" class="status-checked-out">
+      <p>
+        <span class="status-label">الوقت:</span>
+        <span class="status-time">{{
+          record.timeOfLeave | date : "medium" : "" : "En"
+        }}</span>
+      </p>
+      <p>
+        <span class="status-label">الموقع:</span>
+        <span class="status-location valid-location">
+          <span class="material-icons">place</span>
+          {{ record.latitude }}, {{ record.longitude }}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
