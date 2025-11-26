@@ -29,7 +29,7 @@ interface LoginForm {
 export class LoginComponent {
   password ="P@ssword123"
   email ="admin@gmail.com"
-  contactemail ="mariamelgazzar42@gmail.com"
+  contactemail ="mahmoudmera555@gmail.com"
   loginForm: FormGroup<LoginForm>;
   showPassword = signal(false);
   isLoading = signal(false);
